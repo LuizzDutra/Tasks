@@ -1,0 +1,19 @@
+
+.root{
+  width: fit-content;
+  padding: 5px;
+}
+
+.container{
+  text-align: center;
+  display: flex;
+  flex-direction:column;
+  width: fit-content;
+  min-width: 10vw;
+  background-color: #AAAAAA;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #000000;
+  border-radius: 12px;
+  margin-bottom: 1vh;
+}

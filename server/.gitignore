@@ -9,6 +9,9 @@ __pycache__/
 #sqlite
 database.db
 
+#batch
+*.bat
+
 # Distribution / packaging
 .Python
 build/
