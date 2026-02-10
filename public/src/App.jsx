@@ -8,7 +8,7 @@ const App = () => {
 
   async function getServerText(){
     let request;
-    await fetch('http://localhost:8000/', {method: 'GET'})
+    await fetch('http://localhost:8000/greet/', {method: 'GET'})
       .then((response) => response.json())
       .then((json) => {request = json});
     setServerText(request.data);
