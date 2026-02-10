@@ -2,21 +2,18 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
-from time import sleep
-from functools import lru_cache
-import config
+from contextlib import asynccontextmanager
+from config import get_settings
+from api.api import api_router
+from models.db import create_db_and_tables
 
 app = FastAPI()
 
-
-
 #npm run build assets
-app.mount("/assets", StaticFiles(directory="./public/dist/assets"), name="assets")
+app.mount("/assets", 
+          StaticFiles(directory="./public/dist/assets"), 
+          name="app")
 templates = Jinja2Templates("./public/dist/")
-
-@lru_cache
-def get_settings() -> config.Settings:
-    return config.Settings()
 
 app.add_middleware(
     CORSMiddleware,
@@ -27,16 +24,19 @@ app.add_middleware(
 )
 
 
+app.include_router(api_router)
 
-@app.get("/greet")
-def read_root(request: Request, settings: config.Settings = get_settings()):
-    sleep(1) #throttle
-    return {"data": f"{settings.name}!"}
+@asynccontextmanager
+async def lifespan():
+    create_db_and_tables()
+    yield
 
-@app.get("/")
-def home(request: Request):
+
+#Interacts with React router
+@app.get("/app/{path:path}")
+def page(request: Request, path):
+    print(path)
     return templates.TemplateResponse("index.html", {'request': request})
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: str | None = None):
-    return {"item_id": item_id, "q": q}
+
+
