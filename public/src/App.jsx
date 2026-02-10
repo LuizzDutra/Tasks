@@ -8,7 +8,7 @@ const App = () => {
 
   async function getServerText(){
     let request;
-    await fetch('http://localhost:8000/greet/', {method: 'GET'})
+    await fetch('http://localhost:8000/api/greet/', {method: 'GET'})
       .then((response) => response.json())
       .then((json) => {request = json});
     setServerText(request.data);
@@ -21,6 +21,7 @@ const App = () => {
 
 
   return (
+
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
