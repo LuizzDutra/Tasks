@@ -5,7 +5,7 @@ class Settings(BaseSettings):
     name: str = 'empty'
     origins: list[str] = []
     db_url: str = ''
-    model_config = SettingsConfigDict(env_file='./server/.env')
+    model_config = SettingsConfigDict(env_file='./.env')
 
 @lru_cache
 def get_settings() -> Settings:

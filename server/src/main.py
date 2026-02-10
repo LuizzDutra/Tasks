@@ -11,9 +11,9 @@ app = FastAPI()
 
 #npm run build assets
 app.mount("/assets", 
-          StaticFiles(directory="./public/dist/assets"), 
+          StaticFiles(directory="../public/dist/assets"), 
           name="app")
-templates = Jinja2Templates("./public/dist/")
+templates = Jinja2Templates("../public/dist/")
 
 app.add_middleware(
     CORSMiddleware,
