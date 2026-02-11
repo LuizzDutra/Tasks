@@ -1,0 +1,31 @@
+
+.title{
+  margin: 0
+}
+
+
+.subtitle{
+  margin: 0;
+
+}
+
+.error{
+  color: #FF0000
+}
+
+.background{
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  position: absolute;
+  min-width: 15vw;
+  width: fit-content;
+  min-height: fit-content;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #AAAAAA;
+  border-radius: 50px;
+  padding: 5vi;
+  text-align: center;
+}

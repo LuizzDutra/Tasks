@@ -8,7 +8,7 @@ const App = () => {
 
   async function getServerText(){
     let request;
-    await fetch('http://localhost:8000/api/greet/', {method: 'GET'})
+    await fetch(import.meta.env.VITE_API_URL+'/greet', {method: 'GET'})
       .then((response) => response.json())
       .then((json) => {request = json});
     setServerText(request.data);
@@ -31,6 +31,7 @@ const App = () => {
             count is {count}
           </button>
         </p>
+        <a href="/page"> <button>Tasks</button></a>
         <p>
           {serverText}
         </p>

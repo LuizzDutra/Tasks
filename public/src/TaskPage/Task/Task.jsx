@@ -2,13 +2,13 @@ import { useState } from 'react';
 import './Task.css'
 
 
-const Task = ({id, taskData, callback}) => {
+const Task = ({id, taskData, update, deleteFunc}) => {
 
   function prog(val){
     taskData.progress += val;
     if(taskData.progress < 0){taskData.progress = 0}
     if(taskData.progress > taskData.steps){taskData.progress = taskData.steps}
-    callback(id, taskData);
+    update(id, taskData);
   }
 
   return(
@@ -23,6 +23,7 @@ const Task = ({id, taskData, callback}) => {
         <button onClick={() => prog(-1)}> Sub </button>
         <button onClick={() => prog(1)}> Add </button>
       </div>
+      <button onClick={() => deleteFunc(id, taskData.id)}>Delete</button>
     </div>
   </div>
   );
