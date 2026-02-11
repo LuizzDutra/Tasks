@@ -12,7 +12,7 @@ api_router = APIRouter(prefix='/api')
 api_router.include_router(router)
 
 
-@api_router.get("/greet/")
+@api_router.get("/greet")
 def get_greeting(request: Request):
     sleep(1) #throttle
     settings: config.Settings = config.get_settings()
