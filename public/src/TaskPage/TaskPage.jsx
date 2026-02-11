@@ -9,12 +9,12 @@ const TaskPage = () => {
   const [taskState, setTaskState] = useState([]);
 
   async function getTasks(){
-      axios.get('http://localhost:8000/api/tasks')
+      axios.get('http://localhost:8000/api/tasks/')
       .then((response) => {setTaskState(response.data)});
   }
   
   async function updateTaskProgess(data){
-    await axios.patch('http://localhost:8000/api/tasks?id='+data.id+'&field=progress&val='+data.progress)
+    await axios.patch('http://localhost:8000/api/tasks/?id='+data.id+'&field=progress&val='+data.progress)
   }
 
   async function updateTasks(id, data){

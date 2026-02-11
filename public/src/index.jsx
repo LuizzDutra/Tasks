@@ -11,8 +11,8 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="app/" element={<App />} />
-        <Route path="app/page" element={<TaskPage />} />
+        <Route path="/" element={<App />} />
+        <Route path="/page" element={<TaskPage />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

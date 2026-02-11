@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Request
+from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
@@ -32,8 +33,10 @@ async def lifespan():
     yield
 
 
+
+
 #Interacts with React router
-@app.get("/app/{path:path}")
+@app.get("/{path:path}")
 def page(request: Request, path):
     print(path)
     return templates.TemplateResponse("index.html", {'request': request})
