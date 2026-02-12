@@ -11,19 +11,25 @@ const Task = ({id, taskData, update, deleteFunc}) => {
     update(id, taskData);
   }
 
+  const buttonStyle = "bg-blue-200  pl-6 pr-6 m-1 rounded-full text-2xl transition duration-300 ease-out hover:scale-110";
+
+
   return(
-  <div className='root'>
-    <div className='container'>
-      <h3>{taskData.title}</h3>
-      <p>
-        <progress value={taskData.progress/taskData.steps} />
-      </p>
-      <p> {taskData.progress}/{taskData.steps} </p>
+  <div >
+    <div class='bg-gray-200 p-3 rounded-xl grid justify-items-center'>
+      <h1 class="text-xl font-bold">{taskData.title}</h1>
+        <progress class="bg-gray-400" 
+        value={taskData.progress/taskData.steps} />
+      <p class="italic"> {taskData.progress}/{taskData.steps} </p>
       <div>
-        <button onClick={() => prog(-1)}> Sub </button>
-        <button onClick={() => prog(1)}> Add </button>
+        <button
+        class={ buttonStyle }
+        onClick={() => prog(-1)}> Sub </button>
+        <button 
+        class={ buttonStyle }
+        onClick={() => prog(1)}> Add </button>
       </div>
-      <button onClick={() => deleteFunc(id, taskData.id)}>Delete</button>
+      <button class={buttonStyle} style={{backgroundColor: "#FFAAAA"}} onClick={() => deleteFunc(id, taskData.id)}>Delete</button>
     </div>
   </div>
   );

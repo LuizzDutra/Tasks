@@ -1,17 +1,4 @@
-
-.title{
-  margin: 0
-}
-
-
-.subtitle{
-  margin: 0;
-
-}
-
-.error{
-  color: #FF0000
-}
+@import "tailwindcss";
 
 .background{
   display: flex;

@@ -82,17 +82,21 @@ const TaskPage = () => {
   }
 
   return(
-  <>
+  <div class="p-8">
     {activePanel && 
      <AddPanel 
       addFunction={addTask}
       setActivePanel={setActivePanel}/>}
-    <h1>Task Page</h1>
-    <div>
-      <button onClick={() => setActivePanel(!activePanel)}>Add Task</button>
+    <h1 class="text-4xl font-bold ">Task Page</h1>
+    <div class="pb-5 pt-5">
+      <button
+      class="bg-blue-400 shadow-gray-600/50 shadow-lg p-2 rounded-lg transition duration 300 ease-out hover:scale-120"
+      onClick={() => setActivePanel(!activePanel)}>Add Task</button>
     </div>
-    {renderTasks()}
-  </>
+    <div class="mt-10 grid grid-cols-2 gap-10 w-fit">
+      {renderTasks()}
+    </div>
+  </div>
   );
 }
 

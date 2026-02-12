@@ -21,7 +21,7 @@ const AddPanel = ({addFunction, setActivePanel}) => {
   return(
   <div className="background">
     <h1 className="title">Add Task</h1>
-    {err && <h3 className="error">{errMsg}</h3>}
+    {<h3 class="text-red-500">{errMsg}</h3>}
     <form action={addTask}>
       <div className="Field">
         <h3 className="title">Title</h3>
