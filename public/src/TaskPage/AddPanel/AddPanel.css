@@ -5,14 +5,27 @@
   flex-direction: column;
   gap: 2vh;
   position: absolute;
-  min-width: 15vw;
+  min-width: 15%;
   width: fit-content;
-  min-height: fit-content;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #AAAAAA;
-  border-radius: 50px;
+  min-height: 20%;
+  top: 30%;
+  left: 35%;
   padding: 5vi;
   text-align: center;
+
+  @apply bg-blue-200 border-2 border-dotted rounded-4xl;
+  
+  animation: show 400ms ease-out forwards;
+  opacity: 0;
+  transform: rotateX(-90deg);
+  transform-origin: center center;
+
+
+}
+
+@keyframes show {
+  100% {
+    opacity: 1;
+    transform: none;
+  }
 }

@@ -16,24 +16,26 @@ const AddPanel = ({addFunction, setActivePanel}) => {
     setErr(!ret)
     if(!ret){serErrMsg(response.message)}
   }
-  
+ 
+  const titleStyle = "font-bold text-xl";
+  const inputStyle = "bg-gray-200 border-1 border-solid rounded-full p-1";
 
   return(
-  <div className="background">
-    <h1 className="title">Add Task</h1>
+  <div class="background">
+    <h1 class="font-bold text-2xl">Add Task</h1>
     {<h3 class="text-red-500">{errMsg}</h3>}
     <form action={addTask}>
       <div className="Field">
-        <h3 className="title">Title</h3>
-        <input
+        <h3 class={ titleStyle }>Title</h3>
+        <input class={ inputStyle }
           name="title"
           required
           /*onChange={(e) => setTitle(e.target.value)}*/>
         </input>
       </div>
       <div className="Field">
-        <h3 className="title">Steps</h3>
-        <input
+        <h3 class={ titleStyle }>Steps</h3>
+        <input class={ inputStyle }
           name="steps" 
           type="number"
           min="1"
@@ -43,7 +45,7 @@ const AddPanel = ({addFunction, setActivePanel}) => {
       </div>
       <br/>
       <br/>
-      <button type="submit">Add</button>
+      <button class="font-bold rounded-full drop-shadow-lg bg-gray-300 p-2 pl-5 pr-5 transition duration 300 ease-out hover:scale-120" type="submit">Add</button>
     </form>
 
   </div>
