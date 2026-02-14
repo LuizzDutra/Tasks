@@ -5,7 +5,7 @@ import './Task.css'
 const Task = ({id, taskData, update, deleteFunc}) => {
 
   function prog(val){
-    taskData.progress += val;
+    taskData.progress = parseInt(taskData.progress) + val;
     if(taskData.progress < 0){taskData.progress = 0}
     if(taskData.progress > taskData.steps){taskData.progress = taskData.steps}
     update(id, taskData);
