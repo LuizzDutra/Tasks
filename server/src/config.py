@@ -5,6 +5,7 @@ class Settings(BaseSettings):
     name: str = 'empty'
     origins: list[str] = []
     db_url: str = ''
+    SECRET_KEY: str = ''
     model_config = SettingsConfigDict(env_file='./.env')
 
 @lru_cache

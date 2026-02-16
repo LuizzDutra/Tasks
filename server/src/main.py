@@ -8,7 +8,14 @@ from config import get_settings
 from api.api import api_router
 from models.db import create_db_and_tables
 
-app = FastAPI()
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    create_db_and_tables()
+    yield
+
+app = FastAPI(lifespan=lifespan)
 
 #npm run build assets
 app.mount("/assets", 
@@ -26,11 +33,6 @@ app.add_middleware(
 
 
 app.include_router(api_router)
-
-@asynccontextmanager
-async def lifespan():
-    create_db_and_tables()
-    yield
 
 
 
