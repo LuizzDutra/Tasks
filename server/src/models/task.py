@@ -19,7 +19,7 @@ def get_task(task_id: UUID4, user_id: UUID4, session):
     return results.one_or_none()
 
 def get_all_user_tasks(session: SessionDep, token: str):
-    user = User.get_current_user(token, session)
+    user = User.get_usermodel_from_token(token, session)
     statement = select(Task).where(Task.user_id == user.id)
     results = session.exec(statement)
     return results.all()
@@ -27,7 +27,7 @@ def get_all_user_tasks(session: SessionDep, token: str):
 
 
 def delete_task(id: UUID4, session: SessionDep, token: str) -> bool:
-    user = User.get_current_user(token, session)
+    user = User.get_usermodel_from_token(token, session)
     task = get_task(id, user.id, session)
     if task:
         session.delete(task)
@@ -39,7 +39,7 @@ def delete_task(id: UUID4, session: SessionDep, token: str) -> bool:
 
 def update_task(id: UUID4, field: str, val: str | int, session: SessionDep, token: str):
     """field = title | steps | progress"""
-    user = User.get_current_user(token, session)
+    user = User.get_usermodel_from_token(token, session)
     task: Task|None = get_task(id, user.id, session)
     if task:
         match field:
@@ -58,7 +58,7 @@ def update_task(id: UUID4, field: str, val: str | int, session: SessionDep, toke
 
 
 def create_task(t: str, s: int, session: SessionDep, token):
-    user = User.get_current_user(token, session)
+    user = User.get_usermodel_from_token(token, session)
     task = Task(id=uuid.uuid4(),
                 title=t,
                 steps=s,
