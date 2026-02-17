@@ -27,6 +27,7 @@ class RefreshToken(SQLModel, table=True):
 
 class RefreshTokenModel(BaseModel):
     refresh_token: str
+    expire: datetime
     token_type: str
 
 class Token(BaseModel):
@@ -63,7 +64,7 @@ def create_refresh_token(user: User, session):
     delete_refresh_token(user, session)
     session.add(refresh)
     session.commit()
-    return RefreshTokenModel(refresh_token=encoded, token_type="refresh")
+    return RefreshTokenModel(refresh_token=encoded, expire=token["exp"], token_type="refresh")
 
 token_except = HTTPException(401, detail="Could not validate token")
 

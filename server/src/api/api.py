@@ -6,6 +6,7 @@ from time import sleep
 from models.db import SessionDep
 import models.user as User
 from .task import router
+from datetime import datetime, timedelta, timezone
 
 
 api_router = APIRouter(prefix='/api')
@@ -35,7 +36,7 @@ def login(response: Response, form_data: Annotated[OAuth2PasswordRequestForm, De
         return User.login_except
     token = User.create_access_token(user, fresh=True)
     refresh = User.create_refresh_token(user, session)
-    response.set_cookie("refresh_token", refresh.refresh_token)
+    response.set_cookie("refresh_token", refresh.refresh_token, expires=refresh.expire)
     return token
 
 @api_router.post("/register")
