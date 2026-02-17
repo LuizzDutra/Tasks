@@ -4,6 +4,7 @@ from sqlmodel import SQLModel, Field, select, delete, Session
 from sqlalchemy import func
 from .db import SessionDep
 from fastapi import HTTPException
+from fastapi.security import OAuth2PasswordBearer
 from pydantic import BaseModel
 from pwdlib import PasswordHash
 import jwt
@@ -23,6 +24,7 @@ class Token(BaseModel):
 ALGO = "HS256"
 SECRET_KEY = config.get_settings().SECRET_KEY
 TOKEN_EXPIRE_TIME_DELTA = timedelta(hours=24)
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/login")
 
 def create_access_token(user: User):
     data: dict[str, str|datetime] = {"sub": user.username}
@@ -73,7 +75,4 @@ def create_user(username: str, password: str, session: SessionDep):
 #Case insensitive username comparison
 def get_user(username, session: SessionDep):
     return session.exec(select(User).where(func.lower(User.username) == username.lower())).first()
-
-def get_all_users(session: SessionDep):
-    return session.exec(select(User)).all()
 

@@ -1,16 +1,18 @@
 from fastapi import APIRouter, Request, Depends, HTTPException
 from typing import Annotated
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordRequestForm
 import config
 from time import sleep
 from models.db import SessionDep
-from .task import router
 import models.user as User
+from .task import router
 
 
 api_router = APIRouter(prefix='/api')
 api_router.include_router(router)
 
+def include_router(router: APIRouter):
+    api_router.include_router(router)
 
 @api_router.get("/greet")
 def get_greeting(request: Request):
@@ -20,7 +22,6 @@ def get_greeting(request: Request):
     return {"data": f"{settings.name}!"}
 
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/login")
 
 @api_router.post("/login")
 def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], session: SessionDep):
@@ -41,9 +42,5 @@ def register(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], session
 
 
 @api_router.get("/user")
-def get_user_info(token: Annotated[str, Depends(oauth2_scheme)], session: SessionDep):
+def get_user_info(token: Annotated[str, Depends(User.oauth2_scheme)], session: SessionDep):
     return User.get_current_user(token, session)
-
-@api_router.get("/users")
-def get_users(session: SessionDep):
-    return User.get_all_users(session)

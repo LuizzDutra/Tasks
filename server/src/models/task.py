@@ -2,19 +2,33 @@ import uuid
 from pydantic import UUID4
 from sqlmodel import SQLModel, Field, select, delete
 from .db import SessionDep
+from . import user as User
 
 
-class TaskModel(SQLModel, table=True):
+class Task(SQLModel, table=True):
     id: UUID4 = Field(default=None, primary_key=True)
+    user_id: UUID4 = Field(default=None, foreign_key="user.id")
     title: str = Field(index=True)
     steps: int = Field()
     progress: int = Field()
 
 
-def delete_task(id: UUID4, session: SessionDep) -> bool:
-    statement = select(TaskModel).where(TaskModel.id == id)
+def get_task(task_id: UUID4, user_id: UUID4, session):
+    statement = select(Task).where(Task.id == task_id).where(Task.user_id == user_id)
     results = session.exec(statement)
-    task = results.one_or_none()
+    return results.one_or_none()
+
+def get_all_user_tasks(session: SessionDep, token: str):
+    user = User.get_current_user(token, session)
+    statement = select(Task).where(Task.user_id == user.id)
+    results = session.exec(statement)
+    return results.all()
+
+
+
+def delete_task(id: UUID4, session: SessionDep, token: str) -> bool:
+    user = User.get_current_user(token, session)
+    task = get_task(id, user.id, session)
     if task:
         session.delete(task)
         session.commit()
@@ -23,13 +37,10 @@ def delete_task(id: UUID4, session: SessionDep) -> bool:
         return False
 
 
-def get_all_tasks(session: SessionDep):
-    return session.exec(select(TaskModel)).all()
-
-
-def update_task(id: UUID4, field: str, val: str | int, session: SessionDep):
+def update_task(id: UUID4, field: str, val: str | int, session: SessionDep, token: str):
     """field = title | steps | progress"""
-    task = session.get(TaskModel, id)
+    user = User.get_current_user(token, session)
+    task: Task|None = get_task(id, user.id, session)
     if task:
         match field:
             case 'title':
@@ -46,11 +57,13 @@ def update_task(id: UUID4, field: str, val: str | int, session: SessionDep):
 
 
 
-def create_task(t: str, s: int, session: SessionDep):
-    task = TaskModel(id=uuid.uuid4(),
-                     title=t,
-                     steps=s,
-                     progress=0)
+def create_task(t: str, s: int, session: SessionDep, token):
+    user = User.get_current_user(token, session)
+    task = Task(id=uuid.uuid4(),
+                title=t,
+                steps=s,
+                progress=0,
+                user_id=user.id)
     session.add(task)
     session.commit()
     session.refresh(task)
