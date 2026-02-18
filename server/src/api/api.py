@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Request, Depends, HTTPException, Response
 from typing import Annotated
+from fastapi import Cookie
 from fastapi.security import OAuth2PasswordRequestForm
 import config
 from time import sleep
@@ -23,30 +24,46 @@ def get_greeting(request: Request):
     return {"data": f"{settings.name}!"}
 
 
-@api_router.post("/refresh")
-def refresh(refresh_token: Annotated[str, Depends(User.oauth2_scheme)], session: SessionDep):
-    return User.refresh_token(refresh_token, session)
+def set_cookie(response: Response, key, value, expires):
+    response.set_cookie(key, value, expires, samesite="strict", secure=True, httponly=True)
+
+@api_router.get("/refresh")
+def refresh(response: Response, refresh_token: Annotated[str, Cookie(...)], session: SessionDep):
+    token = User.refresh_token(refresh_token, session)
+    set_cookie(response, key="access_token", value=token.access_token, expires=token.expire)
+    return token
+
+@api_router.delete("/login")
+async def logout(response: Response, refresh_token: Annotated[str, Cookie(...)], session: SessionDep):
+    user_id = User.get_user_id_from_refresh(refresh_token)
+    User.delete_refresh_token(user_id, session)
+    session.commit()
+    response.delete_cookie("refresh_token")
+    response.delete_cookie("access_token")
+    return
 
 @api_router.post("/login")
-def login(response: Response, form_data: Annotated[OAuth2PasswordRequestForm, Depends()], session: SessionDep):
+async def login(response: Response, form_data: Annotated[OAuth2PasswordRequestForm, Depends()], session: SessionDep):
     user: User.User|None = User.get_user(form_data.username, session)
     if not user:
-        return User.login_except
+        raise User.login_except
     if not User.verify_password(form_data.password, user):
-        return User.login_except
+        raise User.login_except
     token = User.create_access_token(user, fresh=True)
     refresh = User.create_refresh_token(user, session)
-    response.set_cookie("refresh_token", refresh.refresh_token, expires=refresh.expire)
+    set_cookie(response, "refresh_token",refresh.refresh_token, expires=refresh.expire)
+    set_cookie(response, "access_token", token.access_token, expires=token.expire)
+    session.commit()
     return token
 
 @api_router.post("/register")
 def register(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], session: SessionDep):
     user: User.User|None = User.get_user(form_data.username, session)
     if user:
-        return HTTPException(400, "Username already taken")
+        raise HTTPException(400, "Username already taken")
     return User.create_user(form_data.username, form_data.password, session)
 
 
 @api_router.get("/user")
-def get_user_info(token: Annotated[str, Depends(User.oauth2_scheme)], session: SessionDep):
-    return User.get_usermodel_from_token(token, session)
+def get_user_info(access_token: Annotated[str, Cookie(...)], session: SessionDep):
+    return User.get_usermodel_from_token(access_token, session)

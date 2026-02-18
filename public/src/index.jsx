@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
+import Login from './Login';
+import Register from './Register';
 import TaskPage from './TaskPage/TaskPage';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 
@@ -11,8 +12,9 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/page" element={<TaskPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/" element={<TaskPage />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

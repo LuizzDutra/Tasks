@@ -32,11 +32,12 @@ class RefreshTokenModel(BaseModel):
 
 class Token(BaseModel):
     access_token: str
+    expire: datetime
     token_type: str
 
 ALGO = "HS256"
 SECRET_KEY = config.get_settings().SECRET_KEY
-TOKEN_EXPIRE_TIME_DELTA = timedelta(minutes=5)
+TOKEN_EXPIRE_TIME_DELTA = timedelta(seconds=15)
 REFRESH_EXPIRE_TIME_DELTA = timedelta(days=30)
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/login", refreshUrl="api/refresh")
 
@@ -47,23 +48,21 @@ def create_access_token(user: User, fresh=False):
     data["exp"] = now + TOKEN_EXPIRE_TIME_DELTA
     data["fresh"] = fresh
     encoded = jwt.encode(data, SECRET_KEY, algorithm=ALGO)
-    return Token(access_token=encoded, token_type="bearer")
+    return Token(access_token=encoded,expire=data["exp"], token_type="bearer")
 
-def delete_refresh_token(user: User, session: SessionDep):
-    statement = select(RefreshToken).where(RefreshToken.user_id == user.id)
+def delete_refresh_token(user_id: UUID4, session: SessionDep, commit=False):
+    statement = select(RefreshToken).where(RefreshToken.user_id == user_id)
     result = session.exec(statement).one_or_none()
     if result:
         session.delete(result)
-        session.commit()
 
-def create_refresh_token(user: User, session):
+def create_refresh_token(user: User, session: SessionDep):
     token = {"id": str(user.id),
              "exp": datetime.now(timezone.utc) + REFRESH_EXPIRE_TIME_DELTA}
     encoded = jwt.encode(token, SECRET_KEY, algorithm=ALGO)
     refresh = RefreshToken(refresh_token=encoded, user_id=user.id)
-    delete_refresh_token(user, session)
+    delete_refresh_token(user.id, session)
     session.add(refresh)
-    session.commit()
     return RefreshTokenModel(refresh_token=encoded, expire=token["exp"], token_type="refresh")
 
 token_except = HTTPException(401, detail="Could not validate token")
@@ -81,6 +80,17 @@ def refresh_token(refresh_token: str, session: SessionDep):
         raise token_except
 
 credential_except = HTTPException(401, detail="Could not validade credential")
+
+def get_user_id_from_refresh(token: str):
+    try:
+        decoded = jwt.decode(token, SECRET_KEY, algorithms=[ALGO])
+        user_id = decoded.get("id")
+        if not user_id:
+            raise credential_except
+    except InvalidTokenError:
+        raise credential_except
+    return uuid.UUID(user_id)
+
 
 def get_usermodel_from_token(token: str, session: SessionDep):
     try:

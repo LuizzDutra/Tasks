@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { getTasksController, addTaskController, updateTaskController, deleteTaskController, setLocalStorage} from "./controller";
+import { logged_in, logOut } from "../api"
 import Task from './Task/Task';
 import AddPanel from './AddPanel/AddPanel';
 
 import './TaskPage.css';
 
-let logged_in = true;
  
 const TaskPage = () => {
   const [taskState, setTaskState] = useState([]);
@@ -34,17 +34,22 @@ const TaskPage = () => {
   }
 
   async function updateTasks(id, data){
-    await updateTaskController(data);
-    let temp = [...taskState];
-    temp[id] = data;
-    setTaskState(temp);
+    let status;
+    [status, data] = await updateTaskController(data);
+    if(status){
+      let temp = [...taskState];
+      temp[id] = data;
+      setTaskState(temp);
+    }
   }
 
   async function deleteTasks(id, data_id){
-    deleteTaskController(data_id);
-    let temp = [...taskState];
-    temp.splice(id, 1);
-    setTaskState(temp);
+    let status = await deleteTaskController(data_id);
+    if (status){
+      let temp = [...taskState];
+      temp.splice(id, 1);
+      setTaskState(temp);
+    }
   }
   
   if(!loadedTasks){
@@ -52,7 +57,7 @@ const TaskPage = () => {
   }
 
   function renderTasks(){
-    if(loadedTasks){
+    if(!logged_in() && loadedTasks){
     setLocalStorage([...taskState]);     
     }
     return taskState.map((d, idx) => 
@@ -63,6 +68,11 @@ const TaskPage = () => {
       />);
   }
 
+  async function logOutMiddle(){
+    await logOut();
+    window.location.reload("");
+  }
+
   return(
   <div class="p-8">
     {activePanel && 
@@ -70,6 +80,22 @@ const TaskPage = () => {
       addFunction={addTask}
       setActivePanel={setActivePanel}/>}
     <h1 class="text-4xl font-bold ">Task Page</h1>
+    {logged_in() && <button 
+    class="bg-red-400 shadow-gray-600/50 shadow-lg p-2 rounded-lg transition duration 300 ease-out hover:scale-120"
+    onClick={logOutMiddle}> LogOut </button>}
+    {!logged_in() && 
+        <div>
+        <button 
+      class="bg-blue-400 shadow-gray-600/50 shadow-lg p-2 rounded-lg transition duration 300 ease-out hover:scale-120"
+      onClick={() => {window.location.replace("/login")}}> LogIn </button>
+        <button 
+      class="bg-blue-400 shadow-gray-600/50 shadow-lg p-2 rounded-lg transition duration 300 ease-out hover:scale-120"
+      onClick={() => {window.location.replace("/register")}}> Register </button>
+        </div>
+    }
+
+
+
     <div class="pb-5 pt-5">
       <button
       class="bg-blue-400 shadow-gray-600/50 shadow-lg p-2 rounded-lg transition duration 300 ease-out hover:scale-120"
