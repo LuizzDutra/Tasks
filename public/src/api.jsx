@@ -33,7 +33,7 @@ export async function logOut(){
     method: "delete",
     url: apiUrl + "/login",
     withCredentials: true
-  })
+  }).catch((error) => {if(error.status == 401){console.log("Invalid Token")}});
   localStorage.setItem("logged", false);
 }
 

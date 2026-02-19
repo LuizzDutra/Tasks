@@ -81,12 +81,15 @@ def refresh_token(refresh_token: str, session: SessionDep):
 
 credential_except = HTTPException(401, detail="Could not validade credential")
 
-def get_user_id_from_refresh(token: str):
+def get_user_id_from_refresh(token: str, session):
     try:
         decoded = jwt.decode(token, SECRET_KEY, algorithms=[ALGO])
         user_id = decoded.get("id")
         if not user_id:
-            raise credential_except
+            raise token_except
+        token = session.get(RefreshToken, token)
+        if not token:
+            raise token_except 
     except InvalidTokenError:
         raise credential_except
     return uuid.UUID(user_id)

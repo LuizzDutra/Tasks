@@ -25,7 +25,7 @@ def get_greeting(request: Request):
 
 
 def set_cookie(response: Response, key, value, expires):
-    response.set_cookie(key, value, expires, samesite="strict", secure=True, httponly=True)
+    response.set_cookie(key, value, samesite="strict", secure=True, httponly=True)
 
 @api_router.get("/refresh")
 def refresh(response: Response, refresh_token: Annotated[str, Cookie(...)], session: SessionDep):
@@ -35,7 +35,7 @@ def refresh(response: Response, refresh_token: Annotated[str, Cookie(...)], sess
 
 @api_router.delete("/login")
 async def logout(response: Response, refresh_token: Annotated[str, Cookie(...)], session: SessionDep):
-    user_id = User.get_user_id_from_refresh(refresh_token)
+    user_id = User.get_user_id_from_refresh(refresh_token, session)
     User.delete_refresh_token(user_id, session)
     session.commit()
     response.delete_cookie("refresh_token")
