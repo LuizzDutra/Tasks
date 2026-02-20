@@ -121,8 +121,11 @@ def hash_password(password: str):
 
 
 def create_user(username: str, password: str, session: SessionDep):
+    treated_username = username.lower().strip()
+    if len(treated_username.split()) > 1:
+        raise HTTPException(status_code=400, detail="Wrong username format")
     user: User = User(id= uuid.uuid4(),
-                username=username.lower(),
+                username=treated_username,
                 hashed_password=hash_password(password))
     session.add(user)
     session.commit()
@@ -130,6 +133,7 @@ def create_user(username: str, password: str, session: SessionDep):
     return user
 
 #Case insensitive username comparison
-def get_user(username, session: SessionDep):
-    return session.exec(select(User).where(func.lower(User.username) == username.lower())).first()
+def get_user(username: str, session: SessionDep):
+    username = username.strip().lower()
+    return session.exec(select(User).where(func.lower(User.username) == username)).first()
 
