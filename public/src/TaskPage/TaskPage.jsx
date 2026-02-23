@@ -5,9 +5,14 @@ import Task from './Task/Task';
 import AddPanel from './AddPanel/AddPanel';
 
 import './TaskPage.css';
+import '../index.css';
 
  
 const TaskPage = () => {
+  if(localStorage.getItem("logged") == undefined){
+    window.location.href = "/register";
+  }
+
   const [taskState, setTaskState] = useState([]);
   const [activePanel, setActivePanel] = useState(false);
   const [loadedTasks, setLoadedTasks] = useState(false);

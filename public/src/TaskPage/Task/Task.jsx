@@ -29,7 +29,7 @@ const Task = ({id, taskData, update, deleteFunc}) => {
         class={ buttonStyle }
         onClick={() => prog(1)}> Add </button>
       </div>
-      <button class={buttonStyle} style={{backgroundColor: "#FFAAAA"}} onClick={() => deleteFunc(id, taskData.id)}>Delete</button>
+      <button class={'bg-red-200 ' + buttonStyle} onClick={() => deleteFunc(id, taskData.id)}>Delete</button>
     </div>
   </div>
   );
