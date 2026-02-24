@@ -1,5 +1,5 @@
 import axios from "axios";
-let apiUrl = import.meta.env.VITE_API_URL
+let apiUrl = "/api"//import.meta.env.VITE_API_URL
 
 
 

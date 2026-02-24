@@ -24,12 +24,12 @@ app.mount("/assets",
 templates = Jinja2Templates("../public/dist/")
 
 app.add_middleware(
-    CORSMiddleware,
-    allow_origins=get_settings().origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+        CORSMiddleware,
+        allow_origins=get_settings().origins,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+        )
 
 
 app.include_router(api_router)
@@ -42,6 +42,4 @@ app.include_router(api_router)
 def page(request: Request, path):
     print(path)
     return templates.TemplateResponse("index.html", {'request': request})
-
-
 
