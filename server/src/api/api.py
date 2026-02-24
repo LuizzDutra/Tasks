@@ -25,7 +25,7 @@ def get_greeting(request: Request):
 
 
 def set_cookie(response: Response, key, value, expires):
-    response.set_cookie(key, value, samesite="strict", secure=False, httponly=True)
+    response.set_cookie(key, value, samesite="strict", secure=True, httponly=True)
 
 @api_router.get("/refresh")
 def refresh(response: Response, refresh_token: Annotated[str, Cookie(...)], session: SessionDep):
