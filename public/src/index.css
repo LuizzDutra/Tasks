@@ -1,13 +1,53 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+@import "tailwindcss";
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@theme {
+
+--color-cool-sky-50: #e7f3fd;
+--color-cool-sky-100: #d0e6fb;
+--color-cool-sky-200: #a1cdf7;
+--color-cool-sky-300: #71b5f4;
+--color-cool-sky-400: #429cf0;
+--color-cool-sky-500: #1383ec;
+--color-cool-sky-600: #0f69bd;
+--color-cool-sky-700: #0b4f8e;
+--color-cool-sky-800: #08345e;
+--color-cool-sky-900: #041a2f;
+--color-cool-sky-950: #031221;
+
+--color-mauve-bark-50: #f6f0ef;
+--color-mauve-bark-100: #ece2df;
+--color-mauve-bark-200: #d9c4bf;
+--color-mauve-bark-300: #c6a79f;
+--color-mauve-bark-400: #b48a7e;
+--color-mauve-bark-500: #a16d5e;
+--color-mauve-bark-600: #81574b;
+--color-mauve-bark-700: #604139;
+--color-mauve-bark-800: #402b26;
+--color-mauve-bark-900: #201613;
+--color-mauve-bark-950: #160f0d;
+
+--color-ivory-mist-50: #fef9e7;
+--color-ivory-mist-100: #fcf3cf;
+--color-ivory-mist-200: #fae69e;
+--color-ivory-mist-300: #f7da6e;
+--color-ivory-mist-400: #f5cd3d;
+--color-ivory-mist-500: #f2c10d;
+--color-ivory-mist-600: #c29a0a;
+--color-ivory-mist-700: #917408;
+--color-ivory-mist-800: #614d05;
+--color-ivory-mist-900: #302703;
+--color-ivory-mist-950: #221b02;
+
+--color-powder-blush-50: #ffe8e5;
+--color-powder-blush-100: #ffd0cc;
+--color-powder-blush-200: #ffa299;
+--color-powder-blush-300: #ff7366;
+--color-powder-blush-400: #ff4433;
+--color-powder-blush-500: #ff1500;
+--color-powder-blush-600: #cc1100;
+--color-powder-blush-700: #990d00;
+--color-powder-blush-800: #660900;
+--color-powder-blush-900: #330400;
+--color-powder-blush-950: #240300;
+
 }

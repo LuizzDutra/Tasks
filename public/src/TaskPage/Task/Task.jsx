@@ -11,17 +11,17 @@ const Task = ({id, taskData, update, deleteFunc}) => {
     update(id, taskData);
   }
 
-  const buttonStyle = "bg-blue-200  pl-6 pr-6 m-1 rounded-full text-2xl transition duration-300 ease-out hover:scale-110";
+  const buttonStyle = "bg-cool-sky-200  pl-6 pr-6 m-1 rounded-full text-2xl transition duration-300 ease-out hover:scale-110";
 
 
   return(
   <div >
-    <div class='bg-gray-200 p-3 rounded-xl grid justify-items-center'>
+    <div class='bg-ivory-mist-100 border-10 border-mauve-bark-300 border-double p-3 rounded-xl grid gap-1 justify-items-center'>
       <h1 class="text-xl font-bold">{taskData.title}</h1>
-        <progress class="bg-gray-400" 
+        <progress class="bg-gray-400 w-40 lg:w-50" 
         value={taskData.progress/taskData.steps} />
       <p class="italic"> {taskData.progress}/{taskData.steps} </p>
-      <div>
+      <div class="flex flex-col mb-5">
         <button
         class={ buttonStyle }
         onClick={() => prog(-1)}> Sub </button>
@@ -29,7 +29,7 @@ const Task = ({id, taskData, update, deleteFunc}) => {
         class={ buttonStyle }
         onClick={() => prog(1)}> Add </button>
       </div>
-      <button class={'bg-red-200 ' + buttonStyle} onClick={() => deleteFunc(id, taskData.id)}>Delete</button>
+      <button class={'bg-powder-blush-200 ' + buttonStyle} onClick={() => deleteFunc(id, taskData.id)}>Delete</button>
     </div>
   </div>
   );

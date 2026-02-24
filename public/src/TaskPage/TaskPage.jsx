@@ -78,37 +78,42 @@ const TaskPage = () => {
     window.location.reload("");
   }
 
+  let buttonStyle = "shadow-gray-600/50 shadow-lg p-2 rounded-lg transition duration 300 ease-out hover:scale-120"
+
+
   return(
-  <div class="p-8">
+  <div class="bg-ivory-mist-50 text-xl h-fit min-h-screen">
+  <div class="flex flex-col p-8 ivory-mist-50 m-auto w-fit text-center items-center">
     {activePanel && 
      <AddPanel 
       addFunction={addTask}
       setActivePanel={setActivePanel}/>}
-    <h1 class="text-4xl font-bold ">Task Page</h1>
+    <h1 class="text-5xl font-bold mb-2">Tasks</h1>
     {logged_in() && <button 
-    class="bg-red-400 shadow-gray-600/50 shadow-lg p-2 rounded-lg transition duration 300 ease-out hover:scale-120"
+    class={"bg-powder-blush-300 " + buttonStyle}
     onClick={logOutMiddle}> LogOut </button>}
     {!logged_in() && 
-        <div>
+        <div class="flex gap-2">
         <button 
-      class="bg-blue-400 shadow-gray-600/50 shadow-lg p-2 rounded-lg transition duration 300 ease-out hover:scale-120"
+      class={"bg-cool-sky-300 " + buttonStyle}
       onClick={() => {window.location.replace("/login")}}> LogIn </button>
         <button 
-      class="bg-blue-400 shadow-gray-600/50 shadow-lg p-2 rounded-lg transition duration 300 ease-out hover:scale-120"
+      class={"bg-cool-sky-300 " + buttonStyle}
       onClick={() => {window.location.replace("/register")}}> Register </button>
         </div>
     }
 
 
 
-    <div class="pb-5 pt-5">
+    <div class="pb-5 pt-5 mt-7">
       <button
-      class="bg-blue-400 shadow-gray-600/50 shadow-lg p-2 rounded-lg transition duration 300 ease-out hover:scale-120"
+      class={"bg-cool-sky-300 " + buttonStyle}
       onClick={() => setActivePanel(!activePanel)}>Add Task</button>
     </div>
-    <div class="mt-10 grid grid-cols-2 gap-10 w-fit">
+    <div class="grid grid-cols-2 gap-10 w-fit">
       {loadedTasks && renderTasks()}
     </div>
+  </div>
   </div>
   );
 }

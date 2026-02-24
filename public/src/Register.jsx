@@ -2,6 +2,7 @@ import './Login.css';
 import { register } from './api';
 import UserForm from './UserForm';
 import { useState } from 'react';
+import { form_frame_style } from "./styleclass"
 
 const Register = () => {
   const [notice, setNotice] = useState("")
@@ -26,8 +27,8 @@ const Register = () => {
   }
 
   return (
-    <div class="flex h-screen">
-    <div class="flex flex-col m-auto bg-gray-300 items-center">
+    <div class="flex h-screen bg-ivory-mist-100">
+    <div class={form_frame_style}>
     <UserForm form_action={register_form} register={true} notice={notice}/>
     <a href="/" class="text-blue-600">Proceed without an account</a>
     <a href="/login" class="text-blue-600">Already have an account</a>

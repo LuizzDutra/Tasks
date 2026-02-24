@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { input_style } from "./styleclass"
 
 
 const UserForm = ({form_action, register=false, notice=""}) =>{
@@ -11,39 +12,43 @@ const UserForm = ({form_action, register=false, notice=""}) =>{
     form_action(form_data);
   }
 
+
   return(
-    <div class="m-auto w-fit bg-gray-200 text-center">
-    {!register && <p>Enter your login credentials</p>}
-    {register && <p>Create you account</p>}
+    <div class="flex flex-col gap-5 w-fit text-center p-5">
+    {!register && <p class="mb-2">Enter your login credentials</p>}
+    {register && <p class="mb-2">Create you account</p>}
     <form action={form_action_middle} class="flex flex-col items-center text-center">
     {(notice != "") && <label class="text-red-500">{notice}</label>}
-    <label for="username">Username</label>
     <input
     name="username"
+    placeholder="Username"
     id="username"
     defaultValue={username}
+    class={input_style}
     required
     />
-    <label for="password">Password</label>
     <input
     name="password"
+    placeholder="Password"
     type="password"
     id="password"
     defaultValue={password}
+    class={input_style}
     required
     />
     {register &&
       <>
-      <label for="password_confirmation">Password Confirmation</label>
       <input
       name="password_confirmation"
+      placeholder="Password Confirmation"
       id="password_confirmation"
       type="password"
+      class={input_style}
       required
       />
       </>
     }
-    <button type="submit" class="bg-blue-300 p-4 pt-1 pb-1 rounded-xl">Submit</button>
+    <button type="submit" class="bg-mauve-bark-600 text-white mt-4 p-4 pl-5 pr-5 pt-1 pb-1 rounded-xl transition duration 300 ease-out hover:bg-mauve-bark-700">Submit</button>
     </form>
     </div>
   );
