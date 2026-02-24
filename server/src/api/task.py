@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Request, HTTPException, Cookie
 from pydantic import UUID4
-from models import task
-from models.db import SessionDep
-import models.user as User
+from ..models import task
+from ..models.db import SessionDep
+from ..models import user as User
 from fastapi import Depends
 from typing import Annotated
 

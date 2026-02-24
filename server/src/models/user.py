@@ -9,7 +9,7 @@ from pydantic import BaseModel
 from pwdlib import PasswordHash
 import jwt
 from jwt.exceptions import InvalidTokenError
-import config
+from .. import config
 from datetime import timedelta, timezone, datetime
 
 class User(SQLModel, table=True):

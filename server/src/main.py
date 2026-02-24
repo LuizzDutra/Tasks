@@ -4,9 +4,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from contextlib import asynccontextmanager
-from config import get_settings
-from api.api import api_router
-from models.db import create_db_and_tables
+from .config import get_settings
+from .api.api import api_router
+from .models.db import create_db_and_tables
 
 
 

@@ -2,10 +2,10 @@ from fastapi import APIRouter, Request, Depends, HTTPException, Response
 from typing import Annotated
 from fastapi import Cookie
 from fastapi.security import OAuth2PasswordRequestForm
-import config
+from .. import config
 from time import sleep
-from models.db import SessionDep
-import models.user as User
+from ..models.db import SessionDep
+from ..models import user as User
 from .task import router
 from datetime import datetime, timedelta, timezone
 
@@ -25,7 +25,7 @@ def get_greeting(request: Request):
 
 
 def set_cookie(response: Response, key, value, expires):
-    response.set_cookie(key, value, samesite="strict", secure=True, httponly=True)
+    response.set_cookie(key, value, samesite="strict", secure=False, httponly=True)
 
 @api_router.get("/refresh")
 def refresh(response: Response, refresh_token: Annotated[str, Cookie(...)], session: SessionDep):

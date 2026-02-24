@@ -1,7 +1,7 @@
 from fastapi import Depends
 from typing import Annotated
 from sqlmodel import create_engine, SQLModel, Session
-from config import get_settings
+from ..config import get_settings
 
 
 connect_args = {"check_same_thread": False}
