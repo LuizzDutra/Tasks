@@ -14,7 +14,7 @@ const UserForm = ({form_action, register=false, notice=""}) =>{
 
 
   return(
-    <div class="flex flex-col gap-5 w-fit text-center p-5">
+    <div class="flex flex-col gap-5 w-fit text-center p-0">
     {!register && <p class="mb-2">Enter your login credentials</p>}
     {register && <p class="mb-2">Create you account</p>}
     <form action={form_action_middle} class="flex flex-col items-center text-center">

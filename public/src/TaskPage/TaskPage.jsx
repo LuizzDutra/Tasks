@@ -110,7 +110,7 @@ const TaskPage = () => {
       class={"bg-cool-sky-300 " + buttonStyle}
       onClick={() => setActivePanel(!activePanel)}>Add Task</button>
     </div>
-    <div class="grid grid-cols-2 gap-10 w-fit">
+    <div class="grid grid-cols-2 gap-2 md:gap-10 w-auto justify-items-center">
       {loadedTasks && renderTasks()}
     </div>
   </div>

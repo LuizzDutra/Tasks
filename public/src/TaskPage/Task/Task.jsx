@@ -15,10 +15,10 @@ const Task = ({id, taskData, update, deleteFunc}) => {
 
 
   return(
-  <div >
-    <div class='bg-ivory-mist-100 border-10 border-mauve-bark-300 border-double p-3 rounded-xl grid gap-1 justify-items-center'>
+  <div class="w-1/1">
+    <div class='bg-ivory-mist-100 border-10 border-mauve-bark-300 border-double p-3 rounded-xl flex flex-col gap-1 justify-items-center w-45 md:w-60 break-all'>
       <h1 class="text-xl font-bold">{taskData.title}</h1>
-        <progress class="bg-gray-400 w-40 lg:w-50" 
+        <progress class="bg-gray-400 w-1/1" 
         value={taskData.progress/taskData.steps} />
       <p class="italic"> {taskData.progress}/{taskData.steps} </p>
       <div class="flex flex-col mb-5">
