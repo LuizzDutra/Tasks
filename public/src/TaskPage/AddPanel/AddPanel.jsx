@@ -7,7 +7,7 @@ const AddPanel = ({addFunction, setActivePanel}) => {
   //const [title, setTitle] = useState('')
   //const [steps, setSteps] = useState('')
   const [err, setErr] = useState(false)
-  const [errMsg, serErrMsg] = useState('Something went wrong')
+  const [errMsg, setErrMsg] = useState('Something went wrong')
 
   async function addTask(formData){
     const title = formData.get('title')
@@ -15,6 +15,9 @@ const AddPanel = ({addFunction, setActivePanel}) => {
     const [ret, response] = await addFunction(title, steps);
     setActivePanel(!ret);
     setErr(!ret)
+    if(!ret){
+      setErrMsg(response.response.data.detail);
+    }
   }
  
 

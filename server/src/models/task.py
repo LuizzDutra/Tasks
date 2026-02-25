@@ -1,6 +1,7 @@
 import uuid
 from pydantic import UUID4
 from sqlmodel import SQLModel, Field, select, delete
+from fastapi import HTTPException
 from .db import SessionDep
 from . import user as User
 
@@ -8,7 +9,7 @@ from . import user as User
 class Task(SQLModel, table=True):
     id: UUID4 = Field(default=None, primary_key=True)
     user_id: UUID4 = Field(default=None, foreign_key="user.id")
-    title: str = Field(index=True)
+    title: str = Field(index=True, max_length=50)
     steps: int = Field()
     progress: int = Field()
 
@@ -59,6 +60,8 @@ def update_task(id: UUID4, field: str, val: str | int, session: SessionDep, toke
 
 def create_task(t: str, s: int, session: SessionDep, token):
     user = User.get_usermodel_from_token(token, session)
+    if len(t) > 50:
+        raise HTTPException(400, "Title too big")
     task = Task(id=uuid.uuid4(),
                 title=t,
                 steps=s,

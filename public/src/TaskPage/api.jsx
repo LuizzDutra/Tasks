@@ -49,7 +49,10 @@ export async function addTaskApi(title, steps){
     .then((response) => {
       status = true;
       data = response.data;
-    })
+    }).catch((error) => {
+      status = false;
+      data = error;
+    });
   return [status, data];
 }
 
