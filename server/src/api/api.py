@@ -18,10 +18,8 @@ def include_router(router: APIRouter):
 
 @api_router.get("/greet")
 def get_greeting(request: Request):
-    sleep(1) #throttle
     settings: config.Settings = config.get_settings()
-    print(settings.name)
-    return {"data": f"{settings.name}!"}
+    return {"greet": f"{settings.name}!"}
 
 
 def set_cookie(response: Response, key, value, expires):
