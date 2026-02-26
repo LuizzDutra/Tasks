@@ -37,8 +37,8 @@ class Token(BaseModel):
 
 ALGO = "HS256"
 SECRET_KEY = config.get_settings().SECRET_KEY
-TOKEN_EXPIRE_TIME_DELTA = timedelta(seconds=15)
-REFRESH_EXPIRE_TIME_DELTA = timedelta(days=30)
+TOKEN_EXPIRE_TIME_DELTA = timedelta(seconds=config.get_settings().TOKEN_EXPIRE_SECONDS)
+REFRESH_EXPIRE_TIME_DELTA = timedelta(days=config.get_settings().REFRESH_EXPIRE_DAYS)
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/login", refreshUrl="api/refresh")
 
 def create_access_token(user: User, fresh=False):
